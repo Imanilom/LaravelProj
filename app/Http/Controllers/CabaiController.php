@@ -53,22 +53,29 @@ class CabaiController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cabai = Cabai::findOrFail($id);
+        return view('kalkulator.cabaiEdit', compact('cabai')); 
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $cabai = Cabai::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'aktivitas' => 'required',
+            'item' => 'required',
+        ]);
+
+        $cabai->update($validatedData);
+
+        return redirect()->route('cabai.index')->with('success', 'Data cabai berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $cabai = Cabai::findOrFail($id);
+        $cabai->delete();
+
+        return redirect()->route('cabai.index')->with('success', 'Data cabai berhasil dihapus');
     }
 }

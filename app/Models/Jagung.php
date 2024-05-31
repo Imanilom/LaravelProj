@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Jagung extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'aktivitas',
+        'item',
+    ];
 }

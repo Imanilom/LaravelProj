@@ -3,22 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
     public function store(Request $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->phone = $request->phone;
-        $user->role = 'user';
-        $user->password = Hash::make($request->password);
-        $user->save();
-        return redirect('/user-management');
+        // 1. Validasi Input
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'nullable|string|max:20', // Opsional, max 20 karakter
+            'email' => 'required|string|email|unique:users|max:255', // Email wajib, unik, dan valid
+            'password' => 'required|string|min:8|confirmed', // Password min 8 karakter, harus dikonfirmasi
+        ]);
+
+        // 2. Buat User Baru
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'phone' => $validatedData['phone'],
+            'email' => $validatedData['email'], // Menambahkan email ke data user
+            'role' => 'user',
+            'password' => Hash::make($validatedData['password']),
+        ]);
+
+        // 3. Login User (Opsional)
+        // Jika ingin langsung login setelah registrasi, uncomment baris berikut:
+        // Auth::login($user);
+
+        // 4. Redirect (Sesuaikan dengan kebutuhan)
+        return redirect('/user-management')->with('success', 'User berhasil didaftarkan!');
     }
 }

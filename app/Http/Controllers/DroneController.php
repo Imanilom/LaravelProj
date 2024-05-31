@@ -35,90 +35,58 @@ class DroneController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request): RedirectResponse
+      public function store(StoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
         if ($request->hasFile('gambar')) {
-            // put image in the public storage
-            $filePath = Storage::disk('public')->put('images/posts/gambar', request()->file('gambar'));
+            $filePath = Storage::disk('public')->put('images/drones', $request->file('gambar'));
             $validated['gambar'] = $filePath;
         }
 
-        // insert only requests that already validated in the StoreRequest
-        $create = Drone::create($validated);
+        Drone::create($validated);
 
-        if($create) {
-            // add flash for the success notification
-            session()->flash('notif.success', 'Post created successfully!');
-            return redirect()->route('drones');
-        }
-
-        return abort(500);
+        return redirect()->route('drones.index')->with('notif.success', 'Data drone berhasil ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id): Response
+    public function show(Drone $drone) 
     {
-        return response()->view('drone.show', [
-            'post' => Drone::findOrFail($id),
-        ]);
+        return view('drone.show', compact('drone'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id): Response
+    public function edit(Drone $drone) 
     {
-        return response()->view('drone.form', [
-            'post' => Drone::findOrFail($id),
-        ]);
+        return view('drone.form', compact('drone'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRequest $request, string $id): RedirectResponse
+    public function update(UpdateRequest $request, Drone $drone): RedirectResponse
     {
-        $post = drone::findOrFail($id);
         $validated = $request->validated();
 
         if ($request->hasFile('gambar')) {
-            // delete image
-            Storage::disk('public')->delete($post->gambar);
+            // Hapus gambar lama jika ada
+            if ($drone->gambar) {
+                Storage::disk('public')->delete($drone->gambar);
+            }
 
-            $filePath = Storage::disk('public')->put('images/drones/featured-images', request()->file('gambar'), 'public');
+            $filePath = Storage::disk('public')->put('images/drones', $request->file('gambar'));
             $validated['gambar'] = $filePath;
         }
 
-        $update = $post->update($validated);
+        $drone->update($validated);
 
-        if($update) {
-            session()->flash('notif.success', 'Post updated successfully!');
-            return redirect()->route('drones.index');
-        }
-
-        return abort(500);
+        return redirect()->route('drones.index')->with('notif.success', 'Data drone berhasil diperbarui!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(Drone $drone): RedirectResponse
     {
-        $post = Drone::findOrFail($id);
-
-        Storage::disk('public')->delete($post->gambar);
-        
-        $delete = $post->delete($id);
-
-        if($delete) {
-            session()->flash('notif.success', 'Post deleted successfully!');
-            return redirect()->route('drones.index');
+        // Hapus gambar jika ada
+        if ($drone->gambar) {
+            Storage::disk('public')->delete($drone->gambar);
         }
 
-        return abort(500);
+        $drone->delete();
+
+        return redirect()->route('drones.index')->with('notif.success', 'Data drone berhasil dihapus!');
     }
 }

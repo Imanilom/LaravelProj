@@ -2,63 +2,64 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jagung;
 use Illuminate\Http\Request;
 
 class JagungController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $jagungs = Jagung::all();
+        return view('kalkulator.jagungSop', ['jagungs' => $jagungs]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('kalkulator.jagungCreate');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'aktivitas' => 'required',
+            'item' => 'required',
+        ]);
+
+        Jagung::create($validatedData);
+        return redirect()->route('jagung.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $jagung = Jagung::findOrFail($id);
+        return view('kalkulator.jagungSop', ['jagungs' => collect([$jagung])]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $jagung = Jagung::findOrFail($id);
+        return view('kalkulator.jagungEdit', compact('jagung'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $jagung = Jagung::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'aktivitas' => 'required',
+            'item' => 'required',
+        ]);
+
+        $jagung->update($validatedData);
+
+        return redirect()->route('jagung.index')->with('success', 'Data jagung berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $jagung = Jagung::findOrFail($id);
+        $jagung->delete();
+
+        return redirect()->route('jagung.index')->with('success', 'Data jagung berhasil dihapus');
     }
 }

@@ -52,22 +52,28 @@ class StatusController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $status = Status::findOrFail($id);
+        return view('kalkulator.sopEdit', compact('status')); // View untuk edit status
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $status = Status::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'status' => 'required'
+        ]);
+
+        $status->update($validatedData);
+
+        return redirect()->route('status.index')->with('success', 'Status berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $status = Status::findOrFail($id);
+        $status->delete();
+
+        return redirect()->route('status.index')->with('success', 'Status berhasil dihapus');
     }
 }
