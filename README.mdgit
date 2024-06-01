@@ -1,1 +1,0 @@
-"# KHDTK-Jaya"  initgit add README.mdgit commit -m "first commit"git branch -M maingit remote add origin https://github.com/ifs20027-itdel/KHDTK-Jaya.gitgit push -u origin main
