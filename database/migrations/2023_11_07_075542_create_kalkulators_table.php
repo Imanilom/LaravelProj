@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('kalkulators', function (Blueprint $table) {
@@ -19,14 +16,12 @@ return new class extends Migration
             $table->integer('jarak');
             $table->integer('luas');
             $table->date('date');
-            $table->unsignedBigInteger('user_id')->after('id'); // Menambahkan kolom user_id setelah kolom id
-        $table->foreign('user_id')->references('id')->on('users'); 
+
+            // Foreign Key Relationship
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Use foreignId for conciseness and better type safety
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('kalkulators');

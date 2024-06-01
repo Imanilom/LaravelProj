@@ -19316,12 +19316,9 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 /*!***************************************************!*\
   !*** ./public/assets/scss/soft-ui-dashboard.scss ***!
   \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (() => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
+throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugin/dist/loader.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nSassError: Can't find stylesheet to import.\n     ╷\n1584 │ @import 'variables/rtl';\r\n     │         ^^^^^^^^^^^^^^^\n     ╵\n  public\\assets\\scss\\soft-ui-dashboard\\_variables.scss 1584:9  @import\n  public\\assets\\scss\\soft-ui-dashboard.scss 21:9               root stylesheet\n    at processResult (D:\\Work\\xampp\\htdocs\\LaravelProj\\node_modules\\webpack\\lib\\NormalModule.js:758:19)\n    at D:\\Work\\xampp\\htdocs\\LaravelProj\\node_modules\\webpack\\lib\\NormalModule.js:860:5\n    at D:\\Work\\xampp\\htdocs\\LaravelProj\\node_modules\\loader-runner\\lib\\LoaderRunner.js:400:11\n    at D:\\Work\\xampp\\htdocs\\LaravelProj\\node_modules\\loader-runner\\lib\\LoaderRunner.js:252:18\n    at context.callback (D:\\Work\\xampp\\htdocs\\LaravelProj\\node_modules\\loader-runner\\lib\\LoaderRunner.js:124:13)\n    at Object.loader (D:\\Work\\xampp\\htdocs\\LaravelProj\\node_modules\\sass-loader\\dist\\index.js:69:5)");
 
 /***/ }),
 
@@ -19654,8 +19651,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
-/******/ 			"css/app": 0,
-/******/ 			"assets/css/soft-ui-dashboard": 0
+/******/ 			"css/app": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -19705,9 +19701,9 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app","assets/css/soft-ui-dashboard"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","assets/css/soft-ui-dashboard"], () => (__webpack_require__("./public/assets/scss/soft-ui-dashboard.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","assets/css/soft-ui-dashboard"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./public/assets/scss/soft-ui-dashboard.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

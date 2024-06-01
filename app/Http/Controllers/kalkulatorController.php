@@ -36,36 +36,46 @@ class kalkulatorController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate([
+        $validatedData = $request->validate([
             'komoditas' => 'required',
             'varietas' => 'required',
-            'jarak' => 'required',
+            'jarak' => 'required|regex:/^\d+\s*x\s*\d+$/',
             'luas' => 'required',
             'date' => 'required',
         ]);
-
-     if (auth()->check()) {
-        $validate['user_id'] = auth()->id(); // ini akan mengambil id dari pengguna yang terotentikasi
-    } else {
-        // Handle situasi dimana pengguna tidak login jika diperlukan
+    
+        // Calculate 'luas' based on 'jarak'
+        preg_match('/(\d+)\s*x\s*(\d+)/', $validatedData['jarak'], $matches); 
+        $jarak1 = $matches[1];
+        $jarak2 = $matches[2];
+    
+        // Store both jarak (as an array) and luas
+        $validatedData['jarak'] = $jarak1 * $jarak2; // Store as a list
+    
+        // Associate with user if authenticated
+        if (auth()->check()) {
+            $validatedData['user_id'] = auth()->id();
+        }
+    
+        Kalkulators::create($validatedData);
+    
+        return redirect()->route('kalkulators');
     }
-
-    Kalkulators::create($validate);
-    return redirect()->route('kalkulators');
-    }
+    
     /**
      * Display the specified resource.
      */
- public function show($id)
-{
-    $kalkulator = kalkulators::findOrFail($id);
+    public function show($id)
+    {
+        $kalkulator = Kalkulators::findOrFail($id);
 
-    // Data yang akan dikirim ke view
-    $data = ['kalkulators' => collect([$kalkulator])];
+        // Authorization check (if applicable)
+        if (Auth::check() && $kalkulator->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized'); // Show 403 error if the user is not authorized to view this kalkulator
+        }
 
-    // Mengirim data ke hasil.blade.php
-    return view('kalkulator/hasil', $data);
-}
+        return view('kalkulator.hasil', ['kalkulators' => [$kalkulator]]); // Use dot notation for subfolders
+    }
 
 // Metode tambahan untuk admin, jika diperlukan
 public function showForAdmin($id)
