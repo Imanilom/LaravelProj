@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\SensorLog;
+use App\Models\Lahan;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Upload;
 use Illuminate\Http\Response;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
+
+
     public function home()
     {
         // Check if the logged-in user has the 'admin' role
@@ -69,4 +72,5 @@ class HomeController extends Controller
 
     return view('beranda', compact('actives', 'inactives'));
     }
+    
 }

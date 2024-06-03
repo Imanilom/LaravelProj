@@ -16,7 +16,8 @@ class adminController extends Controller
      */
     public function index()
     {
-        return view('admin');
+        $users = User::where('role', 'user')->get();
+        return view('admin/beranda', compact('users'));
     }
 
     /**

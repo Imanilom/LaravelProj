@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 	//ADMIN
 	Route::middleware(['role:admin'])->group(function () {
+		Route::get('/beranda', [adminController::class, 'index']);
+		
 		Route::get('/user-management', [adminController::class, 'show']);
 
 		// ADD USER
