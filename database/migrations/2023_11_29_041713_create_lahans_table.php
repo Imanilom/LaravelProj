@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lahan', function (Blueprint $table) {
+        Schema::create('lahans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_user'); // Kolom untuk menyimpan ID pengguna
             $table->string('nama_lahan')->nullable(); // Nama lahan (opsional)

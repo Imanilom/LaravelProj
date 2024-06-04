@@ -21,7 +21,7 @@
                 <td>{{ $item->luas_lahan }}</td>
                 <td>
                     <a href="{{ route('lahan.show', $item->id) }}">Lihat</a>
-                    <a href="{{ route('lahan.edit', $item->id) }}">Edit</a>
+                    <a href="{{ route('lahan.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a> 
                     <form action="{{ route('lahan.destroy', $item->id) }}" method="POST">
                         @csrf
                         @method('DELETE')

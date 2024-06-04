@@ -18,7 +18,7 @@ use App\Http\Controllers\SensorAdminController;
 use App\Http\Controllers\SopController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\PetaController;
-
+use App\Http\Controllers\LahanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('hasil', function () {
 		return view('kalkulator/hasil');
 	});
+
 	Route::middleware(['role:user'])->group(function () {
 		Route::get('password', [SessionsController::class, 'password'])->name('Ubah Password');
 		Route::post('password', [SessionsController::class, 'password_action'])->name('password.action')->name('Ubah Password');
@@ -250,3 +251,6 @@ Route::get('/peta/create', [PetaController::class, 'index'])->name('createpetas'
 Route::middleware('auth')->group(function () {
 	Route::resource('petas', PetaController::class);
 });
+
+// lahan
+Route::resource('lahan', LahanController::class)->middleware('auth');

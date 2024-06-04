@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Lahan;
 use Illuminate\Http\Request;
 use Auth;
-
+use Validator;
 class LahanController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        $lahan = $user->lahan; 
+        $lahan = Lahan::where('id_user', auth()->user()->id)->get(); // Filter berdasarkan user yang login
         return view('lahan.index', compact('lahan'));
     }
 
@@ -25,9 +24,9 @@ class LahanController extends Controller
         $validatedData = $request->validate([
             'nama_lahan' => 'required|string|max:255',
             'jenis_tanaman' => 'nullable|string|max:255',
-            'luas_lahan' => 'nullable|numeric',
+            'luas_lahan' => 'nullable|numeric', // Assuming luas_lahan is a numeric value
             'lokasi' => 'nullable|string|max:255',
-            'catatan' => 'nullable|text',
+            'catatan' => 'nullable|string', 
         ]);
 
         $user = Auth::user();
@@ -53,9 +52,9 @@ class LahanController extends Controller
         $validatedData = $request->validate([
             'nama_lahan' => 'required|string|max:255',
             'jenis_tanaman' => 'nullable|string|max:255',
-            'luas_lahan' => 'nullable|numeric',
+            'luas_lahan' => 'nullable|numeric', // Assuming luas_lahan is a numeric value
             'lokasi' => 'nullable|string|max:255',
-            'catatan' => 'nullable|text',
+            'catatan' => 'nullable|string', 
         ]);
 
         $lahan->update($validatedData);
@@ -63,7 +62,7 @@ class LahanController extends Controller
         return redirect()->route('lahan.index')->with('success', 'Lahan berhasil diperbarui.');
     }
 
-    public function destroy(Lahan $lahan)
+    public function destroy(Lahan $lahans)
     {
         $lahan->delete();
 
