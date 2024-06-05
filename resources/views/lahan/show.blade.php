@@ -11,7 +11,22 @@
     <p>Catatan: {{ $lahan->catatan }}</p>
 
     <a href="{{ route('lahan.edit', $lahan->id) }}">Edit</a>
-    
+    <form action="{{ route('foto.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+        <input type="hidden" name="lahan_id" value="{{ $lahan->id }}">
+        <div>
+            <label for="jenis_foto">Jenis Foto:</label>
+            <select name="jenis_foto" id="jenis_foto">
+                <option value="tanaman">Tanaman</option>
+                <option value="drone">Drone</option>
+            </select>
+        </div>
+        <div>
+            <label for="foto">Foto:</label>
+            <input type="file" name="foto" id="foto">
+        </div>
+        <button type="submit">Unggah Foto</button>
+    </form>
     <form action="{{ route('lahan.destroy', $lahan->id) }}" method="POST" style="display: inline;">
         @csrf
         @method('DELETE')

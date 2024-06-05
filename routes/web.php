@@ -19,7 +19,7 @@ use App\Http\Controllers\SopController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\PetaController;
 use App\Http\Controllers\LahanController;
-
+use App\Http\Controllers\FotoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -254,3 +254,8 @@ Route::middleware('auth')->group(function () {
 
 // lahan
 Route::resource('lahan', LahanController::class)->middleware('auth');
+
+// Upload Foto
+
+Route::post('/foto', [FotoController::class, 'store'])->name('foto.store');
+

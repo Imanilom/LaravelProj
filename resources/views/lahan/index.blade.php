@@ -1,4 +1,4 @@
-<h1>Daftar Lahan</h1>
+
 @extends('layouts.user_type.auth')
 
 @section('title', 'Taripar Hub')
