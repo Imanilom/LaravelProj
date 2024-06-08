@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lahan;
+use App\Models\Foto;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
@@ -39,7 +40,9 @@ class LahanController extends Controller
 
     public function show(Lahan $lahan)
     {
-        return view('lahan.show', compact('lahan'));
+        $fotos = Foto::where('lahan_id', $lahan->id)->get(); 
+
+        return view('lahan.show', compact('lahan', 'fotos'));
     }
 
     public function edit(Lahan $lahan)

@@ -19,6 +19,11 @@ class FotoController extends Controller
         $lahan = Lahan::findOrFail($request->lahan_id);
 
         $path = $request->file('foto')->store('public/fotos');
+        // Ambil nama file dari path
+        $filename = basename($path);
+
+        // Buat path yang benar untuk disimpan di database
+        $path = 'storage/fotos/' . $filename;
 
         $foto = new Foto([
             'lahan_id' => $lahan->id,
