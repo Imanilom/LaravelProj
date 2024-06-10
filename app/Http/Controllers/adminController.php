@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Lahan;
+use App\Models\Foto;
 use Illuminate\Support\Facades\Schema;
 
 
@@ -18,6 +20,12 @@ class adminController extends Controller
     {
         $users = User::where('role', 'user')->get();
         return view('admin/beranda', compact('users'));
+    }
+
+    public function beranda(User $user)
+    {
+        $lahans = Lahan::where('id_user', $user->id)->with('fotos')->get();
+        return view('admin.show-lahan', compact('lahans', 'user'));
     }
 
     /**

@@ -13,4 +13,5 @@ class Foto extends Model
     {
         return $this->belongsTo(Lahan::class, 'lahan_id'); // Perhatikan 'lahan_id' di sini
     }
+    
 }

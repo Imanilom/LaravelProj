@@ -17,4 +17,9 @@ class Lahan extends Model
     {
         return $this->belongsTo(User::class, 'id_user'); // Sesuaikan dengan model User Anda
     }
+
+    public function fotos()
+    {
+        return $this->hasMany(Foto::class, 'lahan_id');
+    }
 }

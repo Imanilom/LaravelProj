@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
 	//ADMIN
 	Route::middleware(['role:admin'])->group(function () {
 		Route::get('/beranda', [adminController::class, 'index']);
-		
+		Route::get('/beranda/{user}', [adminController::class, 'beranda'])->name('beranda');
 		Route::get('/user-management', [adminController::class, 'show']);
 
 		// ADD USER
@@ -258,4 +258,11 @@ Route::resource('lahan', LahanController::class)->middleware('auth');
 // Upload Foto
 
 Route::post('/foto', [FotoController::class, 'store'])->name('foto.store');
+Route::get('/fotos/{foto}/edit', [FotoController::class, 'edit'])->name('foto.edit');
+Route::delete('/fotos/{foto}', [FotoController::class, 'destroy'])->name('foto.destroy');
+Route::put('/fotos/{foto}', [FotoController::class, 'update'])->name('foto.update');
+
+// beranda
+
+
 

@@ -36,43 +36,61 @@
         </form>
     </div>
 
-    <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-lg p-6">
-        <h2 class="text-xl font-semibold mb-4">Foto-foto Lahan</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            @foreach ($fotos as $foto)
-                <div class="flex flex-col">
-                    <img src="{{ asset($foto->path) }}" alt="{{ $foto->jenis_foto }}" class="w-48 h-48 object-cover rounded-t-lg">
+    @php
+        $fotosTanaman = $lahan->fotos->where('jenis_foto', 'tanaman')->sortByDesc('created_at');
+        $fotosDrone = $lahan->fotos->where('jenis_foto', 'drone')->sortByDesc('created_at');
+    @endphp
 
-                    <div class="p-4 bg-gray-100 rounded-b-lg">
+    <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-lg p-6">
+        <h2 class="text-xl font-semibold mb-4">Foto-foto Lahan (Tanaman)</h2>
+        <div class="row">
+            @foreach ($fotosTanaman as $foto)
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="{{ asset($foto->path) }}" class="card-img-top" alt="{{ $foto->jenis_foto }}" style="max-height: 200px; object-fit: cover;">
+                    <div class="card-body">
                         <p class="text-gray-700 font-semibold text-center">{{ $foto->jenis_foto }}</p>
+                        <p class="text-gray-700 font-semibold text-center">{{ $foto->updated_at }}</p>
+                        <div class="flex justify-center">
+                            <a href="{{ route('foto.edit', $foto->id) }}" class="btn btn-sm btn-warning mr-2">Edit</a>
+                            <form action="{{ route('foto.destroy', $foto->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
+            </div>
             @endforeach
         </div>
     </div>
 
     <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-lg p-6">
-        <h2 class="text-xl font-semibold mb-4">Unggah Foto Baru</h2>
-
-        <form action="{{ route('foto.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="lahan_id" value="{{ $lahan->id }}">
-
-            <div class="mb-4">
-                <label for="jenis_foto" class="block text-gray-700 font-semibold">Jenis Foto:</label>
-                <select name="jenis_foto" id="jenis_foto" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="tanaman">Tanaman</option>
-                    <option value="drone">Drone</option>
-                </select>
+        <h2 class="text-xl font-semibold mb-4">Foto-foto Lahan (Drone)</h2>
+        <div class="row">
+            @foreach ($fotosDrone as $foto)
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="{{ asset($foto->path) }}" class="card-img-top" alt="{{ $foto->jenis_foto }}" style="max-height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <p class="text-gray-700 font-semibold text-center">{{ $foto->jenis_foto }}</p>
+                        <p class="text-gray-700 font-semibold text-center">{{ $foto->updated_at }}</p>
+                        <div class="flex justify-center">
+                            <a href="{{ route('foto.edit', $foto->id) }}" class="btn btn-sm btn-warning mr-2">Edit</a>
+                            <form action="{{ route('foto.destroy', $foto->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
+            @endforeach
+        </div>
+    </div>
 
-            <div class="mb-4">
-                <label for="foto" class="block text-gray-700 font-semibold">Foto:</label>
-                <input type="file" name="foto" id="foto" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-
-            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Unggah Foto</button>
-        </form>
     </div>
 </div>
 @endsection

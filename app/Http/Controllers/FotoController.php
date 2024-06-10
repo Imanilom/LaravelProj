@@ -35,4 +35,47 @@ class FotoController extends Controller
         return redirect()->back()->with('success', 'Foto berhasil diunggah.');
     }
 
+    public function edit(Foto $foto)
+    {
+        // Pastikan hanya pemilik lahan yang bisa mengedit foto
+        if ($foto->lahan->id_user != auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('foto.edit', compact('foto'));
+    }
+
+    public function update(Request $request, Foto $foto)
+    {
+        // Authorize: Ensure the user owns the photo
+        if ($foto->lahan->id_user != auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+        $request->validate([
+            'jenis_foto' => 'required|in:tanaman,drone',
+        ]);
+
+        $foto->update([
+            'jenis_foto' => $request->jenis_foto,
+        ]);
+
+        return redirect()->back()->with('success', 'Foto berhasil diperbarui.');
+    }
+
+    public function destroy(Foto $foto)
+    {
+        // Pastikan hanya pemilik lahan yang bisa menghapus foto
+        if ($foto->lahan->id_user != auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Hapus file foto dari storage
+        Storage::delete($foto->path_foto);
+
+        // Hapus data foto dari database
+        $foto->delete();
+
+        return redirect()->back()->with('success', 'Foto berhasil dihapus.');
+    }
+
 }
