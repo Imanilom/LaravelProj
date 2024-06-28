@@ -1,4 +1,4 @@
-@extends('layouts.user_type.auth')
+<!-- @extends('layouts.user_type.auth')
 
 @section('title', 'Taripar Hub')
 
@@ -103,4 +103,4 @@
         background-color: red; 
     }
 
-</style>
+</style> -->

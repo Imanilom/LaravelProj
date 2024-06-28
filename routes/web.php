@@ -265,4 +265,12 @@ Route::put('/fotos/{foto}', [FotoController::class, 'update'])->name('foto.updat
 // beranda
 
 
+// Sensor Endpoint
+
+use App\Http\Controllers\SensorDataController;
+
+Route::post('/sensor-data', [SensorDataController::class, 'store']);
+
+
+
 

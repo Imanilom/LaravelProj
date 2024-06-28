@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\SensorData;
 
 class Kernel extends ConsoleKernel
 {
@@ -30,7 +31,19 @@ class Kernel extends ConsoleKernel
         if(env('IS_DEMO')) {
             $schedule->command('migrate:fresh --seed')->cron($scheduledInterval);
         }
+
+        // Scheduler
+        $schedule->call(function () {
+            // Ambil data dari sensor_data dan kirim ke web
+            $sensorData = SensorData::all();
+            // Proses pengiriman data ke web bisa menggunakan Guzzle HTTP Client atau yang lainnya
+            // Contoh:
+            // Http::post('https://yourweb.com/api/receive-sensor-data', $sensorData->toArray());
+            // php artisan schedule:run
+        })->everyFourHours();
     }
+
+
 
     /**
      * Register the commands for the application.

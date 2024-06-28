@@ -1,4 +1,4 @@
-@extends('layouts.user_type.auth')
+<!-- @extends('layouts.user_type.auth')
 
 @section('title', 'Tampilkan')
 
@@ -63,4 +63,4 @@
         max-width: 100%;
         height: auto;
     }
-</style>
+</style> -->

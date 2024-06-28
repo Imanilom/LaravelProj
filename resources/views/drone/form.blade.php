@@ -1,4 +1,4 @@
-@extends('layouts.user_type.auth')
+<!-- @extends('layouts.user_type.auth')
 
 @section('title', 'Edit')
 
@@ -65,4 +65,4 @@
         }
     }
 </script>
-@endsection
+@endsection -->
